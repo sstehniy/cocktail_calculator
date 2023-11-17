@@ -2,11 +2,7 @@ import { create } from "zustand";
 import { type Actions, type State } from "./types";
 import * as SQLite from "expo-sqlite";
 import { Platform } from "react-native";
-import {
-  type Ingredient,
-  type Cocktail,
-  type CocktailIngredient,
-} from "../../types";
+import { type Ingredient, type Cocktail } from "../../types";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -42,14 +38,16 @@ function openDatabase() {
         image TEXT
         )`,
     );
+
     tx.executeSql(
       `CREATE TABLE IF NOT EXISTS cocktail_ingredients (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         cocktail_id TEXT NOT NULL,
         ingredient_id TEXT NOT NULL, 
-        amount REAL, 
+        amountInMl REAL, 
         unit TEXT, 
-        amount_per_cocktail REAL, 
+        amountPerCocktail REAL, 
+        pricePerLiter REAL,
         FOREIGN KEY (cocktail_id) REFERENCES cocktails(id),
         FOREIGN KEY (ingredient_id) REFERENCES ingredients(id)
         )`,
@@ -59,22 +57,62 @@ function openDatabase() {
 INSERT INTO cocktails (id, name, description, image) VALUES 
 ('cocktail-001', 'Mojito', 'A traditional Cuban highball', 'https://cdn.diffords.com/contrib/stock-images/2016/1/01/20163e856fbeb76b298eb064a15897d2b5d6.jpg'),
 ('cocktail-002', 'Cosmopolitan', 'A chic, classic cocktail', 'https://cdn.diffords.com/contrib/stock-images/2016/7/58/201617fbd06027f8d8e70378b3dadb8a275e.jpg'),
-('cocktail-003', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg');
+('cocktail-003', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-004', 'SOme other', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-005', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-006', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-007', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-008', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-009', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg'),
+('cocktail-010', 'Margarita', 'A popular Mexican cocktail', 'https://cdn.diffords.com/contrib/stock-images/2023/02/63fe29aa8c69b.jpg');
     `);
 
     tx.executeSql(`
-    INSERT INTO cocktail_ingredients (cocktail_id, ingredient_id, 
-amountPerCocktail, unit, amountInMl, pricePerLiter) VALUES 
-('cocktail-001', 'ing-001', 50, 'ml', 1000, 20),
-('cocktail-001', 'ing-002', 8, 'leaves', 100, 30),
-('cocktail-001', 'ing-003', 25, 'ml', 1000, 20),
-('cocktail-001', 'ing-004', 2, 'teaspoons', 100, 30),
-('cocktail-001', 'ing-005', 100, 'ml', 1000, 20),
-('cocktail-002', 'ing-006', 35, 'ml', 1000, 20),
-('cocktail-002', 'ing-007', 15, 'ml', 1000, 20),
-('cocktail-002', 'ing-008', 15, 'ml', 1000, 20),
-('cocktail-002', 'ing-003', 25, 'ml', 1000, 20),
-    `);
+          INSERT INTO cocktail_ingredients (cocktail_id, ingredient_id, 
+        amountPerCocktail, unit, amountInMl, pricePerLiter) VALUES 
+    ('cocktail-001', 'ing-001', 50, 'ml', 50, 100),
+    ('cocktail-001', 'ing-002', 8, 'leaves', 8, 100),
+    ('cocktail-001', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-001', 'ing-004', 2, 'tsp', 2, 100),
+
+    ('cocktail-002', 'ing-006', 40, 'ml', 40, 100),
+    ('cocktail-002', 'ing-007', 15, 'ml', 15, 100),
+    ('cocktail-002', 'ing-003', 15, 'ml', 15, 100),
+    ('cocktail-002', 'ing-008', 30, 'ml', 30, 100),
+
+    ('cocktail-003', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-003', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-003', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-004', 'ing-001', 50, 'ml', 50, 100),
+    ('cocktail-004', 'ing-002', 8, 'leaves', 8, 100),
+    ('cocktail-004', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-004', 'ing-004', 2, 'tsp', 2, 100),
+
+    ('cocktail-005', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-005', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-005', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-006', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-006', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-006', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-007', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-007', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-007', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-008', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-008', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-008', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-009', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-009', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-009', 'ing-010', 2, 'tsp', 2, 100),
+
+    ('cocktail-010', 'ing-009', 50, 'ml', 50, 100),
+    ('cocktail-010', 'ing-003', 25, 'ml', 25, 100),
+    ('cocktail-010', 'ing-010', 2, 'tsp', 2, 100);
+        `);
 
     tx.executeSql(
       `INSERT INTO ingredients (id, name, image) VALUES 
@@ -316,16 +354,16 @@ export const useLocalCocktailsStore = create<State & Actions>()((set, get) => ({
         `SELECT 
   c.id AS 'id', 
   c.name AS 'name', 
-  c.description AS 'description', 
-  c.instructions AS 'instructions', 
+  c.description AS 'description',  
   c.image AS 'image',
   json_group_array(
     json_object(
-      'id', ci.ingredient_id, 
-      'name', i.name, 
-      'image', i.image, 
-      'amount', ci.amount, 
-      'unit', ci.unit
+      'id', i.id,
+      'name', i.name,
+      'amountPerCocktail', ci.amountPerCocktail,
+      'unit', ci.unit,
+      'amountInMl', ci.amountInMl,
+      'pricePerLiter', ci.pricePerLiter
     )
   ) AS 'ingredients'
 FROM 
@@ -350,7 +388,7 @@ GROUP BY
         ingredients: JSON.parse(val.ingredients),
       })) as Cocktail[];
       const ingredients = ingredientRows._array as Ingredient[];
-      console.log("cocktails", cocktails);
+      console.log("cocktails", cocktails.length);
 
       set({
         cocktails,

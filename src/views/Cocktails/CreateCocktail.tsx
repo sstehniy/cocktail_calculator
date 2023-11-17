@@ -1,8 +1,7 @@
-import React from "react";
+import { Box } from "@gluestack-ui/themed";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { type FC } from "react";
 import { type StackNavParamList } from "./CocktailsStack";
-import { type FC } from "react";
-import { Box, FormControl } from "@gluestack-ui/themed";
 
 type CreateCocktailScreenNavigationProp = NativeStackNavigationProp<
   StackNavParamList,

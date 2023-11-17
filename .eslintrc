@@ -18,6 +18,12 @@
         "react-native",
         "prettier"
     ],
+    "ignorePatterns": [
+        "node_modules/",
+        "data/",
+        "android/",
+        "ios/",
+    ],
     "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "prettier/prettier": "error"

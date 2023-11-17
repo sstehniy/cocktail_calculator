@@ -9,10 +9,9 @@ import { CocktailScreenStack } from "./views/Cocktails/CocktailsStack";
 import { IngredientScreen } from "./views/Ingredients";
 import { useLocalCocktailsStore } from "./state/localCocktails/useLocalCocktailsStore";
 import {
-  useFonts,
-  Roboto_300Light,
   Roboto_100Thin,
   Roboto_100Thin_Italic,
+  Roboto_300Light,
   Roboto_300Light_Italic,
   Roboto_400Regular,
   Roboto_400Regular_Italic,
@@ -22,11 +21,12 @@ import {
   Roboto_700Bold_Italic,
   Roboto_900Black,
   Roboto_900Black_Italic,
+  useFonts,
 } from "@expo-google-fonts/roboto/";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { config as defaultConfig } from "@gluestack-ui/config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export interface TabNavParamList extends ParamListBase {
   Cocktails: undefined;
@@ -68,36 +68,44 @@ export default function App() {
   }
 
   return (
-    <GluestackUIProvider config={defaultConfig}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={{
-            headerStyle: {},
-            headerShown: false,
-          }}
-        >
-          <Tab.Screen
-            name="Cocktails"
-            component={CocktailScreenStack}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome name="cocktail" color={color} size={size} />
-              ),
-              tabBarActiveTintColor: "#1A91FF",
-              tabBarInactiveTintColor: "#737373",
+    <SafeAreaProvider>
+      <GluestackUIProvider config={defaultConfig}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={{
+              headerStyle: {},
+              headerShown: false,
             }}
-          />
-          <Tab.Screen
-            name="Ingredients"
-            component={IngredientScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome name="clipboard-list" color={color} size={size} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </GluestackUIProvider>
+          >
+            <Tab.Screen
+              name="Cocktails"
+              component={CocktailScreenStack}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <FontAwesome name="cocktail" color={color} size={size} />
+                ),
+                tabBarActiveTintColor: "#9333ea",
+                tabBarInactiveTintColor: "#737373",
+              }}
+            />
+            <Tab.Screen
+              name="Ingredients"
+              component={IngredientScreen}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <FontAwesome
+                    name="clipboard-list"
+                    color={color}
+                    size={size}
+                  />
+                ),
+                tabBarActiveTintColor: "#9333ea",
+                tabBarInactiveTintColor: "#737373",
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </GluestackUIProvider>
+    </SafeAreaProvider>
   );
 }
